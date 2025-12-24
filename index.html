@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy 20th Birthday Madamji 🎂</title>
+
+<style>
+body{
+ margin:0;
+ font-family:'Segoe UI',sans-serif;
+ background:linear-gradient(120deg,#ff9a9e,#fad0c4);
+ color:white;
+ text-align:center;
+ overflow-x:hidden;
+}
+
+section{display:none;padding:30px;}
+
+h1,h2{animation:glow 2s infinite alternate;}
+
+@keyframes glow{
+ from{text-shadow:0 0 10px pink;}
+ to{text-shadow:0 0 25px white;}
+}
+
+button{
+ padding:14px 28px;
+ font-size:18px;
+ border:none;
+ border-radius:30px;
+ background:#ff4d6d;
+ color:white;
+ cursor:pointer;
+ margin:10px;
+}
+
+img{
+ width:90%;
+ max-width:300px;
+ border-radius:20px;
+ box-shadow:0 0 20px rgba(0,0,0,0.3);
+ margin:15px 0;
+}
+
+#text20,#letter{
+ font-size:18px;
+ line-height:1.7;
+ white-space:pre-wrap;
+}
+
+/* Snow + Flower */
+.snow,.flower{
+ position:fixed;
+ top:-10px;
+ font-size:20px;
+ animation:fall linear infinite;
+ pointer-events:none;
+}
+
+.flower{font-size:22px;}
+
+@keyframes fall{
+ to{transform:translateY(110vh);}
+}
+
+/* 💖 HEART GAME */
+.heart{
+ position:absolute;
+ font-size:28px;
+ cursor:pointer;
+ animation:float 4s linear forwards;
+}
+
+@keyframes float{
+ from{bottom:0; opacity:1;}
+ to{bottom:100%; opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎧 MUSIC -->
+<audio id="music" preload="auto" loop>
+ <source src="birthday (2).mp3" type="audio/mpeg">
+</audio>
+
+<!-- START -->
+<section id="start" style="display:block">
+ <h1>🎂 Happy 20th Birthday 🎂</h1>
+ <h2>PIYUSHA 🤍</h2>
+ <p>My Madamji 🌸</p>
+ <button onclick="start()">START 💝</button>
+</section>
+
+<!-- PHOTOS -->
+<section id="photos">
+ <h2>✨ Still the Same Smile ✨</h2>
+ <img src="pic1.jpeg">
+ <img src="pic2.jpeg">
+ <p>Some smiles grow with age… yours just gets warmer 💕</p>
+ <button onclick="goGame()">Next ➡️</button>
+</section>
+
+<!-- 💖 HEART GAME -->
+<section id="game">
+ <h2>💖 Catch the Hearts 💖</h2>
+ <p>Tap 5 hearts to continue 🤍</p>
+ <h3>Hearts: <span id="score">0</span>/5</h3>
+</section>
+
+<!-- 🌸 WELCOME TO 20 -->
+<section id="welcome20">
+ <h2>🌷 Welcome to Your 20s 🌷</h2>
+ <div id="text20"></div>
+ <button id="nextBtn20" style="display:none" onclick="goLetter()">Continue 🤍</button>
+</section>
+
+<!-- LETTER -->
+<section id="letterSection">
+ <h2>💌 A Little Note</h2>
+ <div id="letter"></div>
+ <button onclick="end()">Finish 🎆</button>
+</section>
+
+<!-- END -->
+<section id="end">
+ <h1>🎉 Happy 20th Birthday Madamji 🎉</h1>
+ <p>You don’t have to have everything figured out.</p>
+ <p>Just be you — that’s more than enough 🤍</p>
+</section>
+
+<script>
+function start(){
+ document.getElementById("start").style.display="none";
+ document.getElementById("photos").style.display="block";
+ document.getElementById("music").play().catch(()=>{});
+}
+
+function goGame(){
+ document.getElementById("photos").style.display="none";
+ document.getElementById("game").style.display="block";
+ startHeartGame();
+}
+
+/* 💖 HEART GAME LOGIC */
+let score=0;
+function startHeartGame(){
+ const interval=setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*90+"vw";
+  h.style.bottom="0px";
+  document.body.appendChild(h);
+
+  h.onclick=()=>{
+   score++;
+   document.getElementById("score").innerText=score;
+   h.remove();
+   if(score>=5){
+    clearInterval(interval);
+    setTimeout(()=>{
+     document.getElementById("game").style.display="none";
+     document.getElementById("welcome20").style.display="block";
+     type20();
+    },500);
+   }
+  };
+
+  setTimeout(()=>h.remove(),4000);
+ },800);
+}
+
+/* 20 WELCOME TEXT */
+const msg20 = `
+Hey Madamji 🤍
+
+Welcome to your 20s.
+
+No rush.
+No pressure.
+No rulebook.
+
+You don’t have to know everything.
+You don’t have to be strong all the time.
+
+It’s okay to grow slowly.
+It’s okay to feel unsure.
+It’s okay to just exist and breathe.
+
+Your 20s are not about being perfect —
+they’re about becoming real.
+
+And I’m really glad
+I get to see you step into this chapter 🌸
+`;
+
+let t=0;
+function type20(){
+ if(t < msg20.length){
+  document.getElementById("text20").innerHTML += msg20.charAt(t++);
+  setTimeout(type20,45);
+ } else {
+  document.getElementById("nextBtn20").style.display="inline-block";
+ }
+}
+
+/* LETTER */
+const letterText = `
+This birthday isn’t about candles or noise.
+
+It’s about you —
+your heart, your journey, your quiet strength.
+
+I hope this year feels kinder to you.
+I hope you feel less alone.
+And I hope you remember —
+
+you matter more than you think 🤍
+
+Happy 20th, Madamji 🌷
+`;
+
+let i=0;
+function goLetter(){
+ document.getElementById("welcome20").style.display="none";
+ document.getElementById("letterSection").style.display="block";
+ typeLetter();
+}
+
+function typeLetter(){
+ if(i < letterText.length){
+  document.getElementById("letter").innerHTML += letterText.charAt(i++);
+  setTimeout(typeLetter,45);
+ }
+}
+
+function end(){
+ document.getElementById("letterSection").style.display="none";
+ document.getElementById("end").style.display="block";
+}
+
+/* ❄️ SNOW */
+setInterval(()=>{
+ const s=document.createElement("div");
+ s.className="snow";
+ s.innerHTML="❄️";
+ s.style.left=Math.random()*100+"vw";
+ s.style.animationDuration=(Math.random()*3+2)+"s";
+ document.body.appendChild(s);
+ setTimeout(()=>s.remove(),5000);
+},250);
+
+/* 🌸 FLOWERS */
+const flowers=["🌸","🌼","🌷","🌹"];
+setInterval(()=>{
+ const f=document.createElement("div");
+ f.className="flower";
+ f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+ f.style.left=Math.random()*100+"vw";
+ f.style.animationDuration=(Math.random()*4+3)+"s";
+ document.body.appendChild(f);
+ setTimeout(()=>f.remove(),6000);
+},600);
+</script>
+
+</body>
+</html>
